@@ -4,3 +4,7 @@ import( Rcpp )
 import( slam )
 import(methods)
 import(RColorBrewer)
+importFrom("graphics", "lines", "par", "plot", "plot.new",
+             "plot.window", "points", "rect", "strheight", "strwidth",
+             "text")
+importFrom("stats", "runif", "sd")
