@@ -171,7 +171,7 @@ commonality.cloud <- function(term.matrix,comonality.measure=min,max.words=300,.
 #a cloud comparing the frequencies of words across documents
 comparison.cloud <- function(term.matrix,scale=c(4,.5),max.words=300,random.order=FALSE,
 		rot.per=.1,colors=brewer.pal(ncol(term.matrix),"Dark2"),use.r.layout=FALSE,title.size=3,
-		title.color=NULL,match.colors=FALSE,title.bg.color="grey90",...) { 
+		title.colors=NULL,match.colors=FALSE,title.bg.colors="grey90",...) {
 	
 	ndoc <- ncol(term.matrix)
 	thetaBins <- seq(from=0,to=2*pi,length=ndoc+1)
@@ -244,22 +244,26 @@ comparison.cloud <- function(term.matrix,scale=c(4,.5),max.words=300,random.orde
 	
 	#add titles
 	docnames <- colnames(term.matrix)
-	for(i in 1:ncol(term.matrix)){
+	if(!is.null(title.colors)){
+		title.colors <- rep(title.colors, length.out=ndoc)
+	}
+	title.bg.colors <- rep(title.bg.colors, length.out=ndoc)
+	for(i in 1:ndoc){
 		th <- mean(thetaBins[i:(i+1)])
 		word <- docnames[i]
 		wid <- strwidth(word,cex=title.size)*1.2
 		ht <- strheight(word,cex=title.size)*1.2	
 		x1 <- .5+.45*cos(th)
 		y1 <- .5+.45*sin(th)
-		rect(x1-.5*wid,y1-.5*ht,x1+.5*wid,y1+.5*ht,col=title.bg.color, border="transparent")
-		if(is.null(title.color)){
+		rect(x1-.5*wid,y1-.5*ht,x1+.5*wid,y1+.5*ht,col=title.bg.colors[i], border="transparent")
+		if(is.null(title.colors)){
 			if(match.colors){
 				text(x1,y1,word,cex=title.size,col=colors[i])
 			}else{
 				text(x1,y1,word,cex=title.size)
 			}
 		}else{
-			text(x1,y1,word,cex=title.size,col=title.color)
+			text(x1,y1,word,cex=title.size,col=title.colors[i])
 		}
 		boxes[[length(boxes)+1]] <- c(x1-.5*wid,y1-.5*ht,wid,ht)
 	}
