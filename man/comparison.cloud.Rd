@@ -9,7 +9,7 @@
 \usage{
 comparison.cloud(term.matrix,scale=c(4,.5), max.words=300,
 	random.order=FALSE, rot.per=.1,
-	colors=brewer.pal(ncol(term.matrix),"Dark2"),
+	colors=brewer.pal(max(3,ncol(term.matrix)),"Dark2"),
 	use.r.layout=FALSE, title.size=3,
 	title.colors=NULL, match.colors=FALSE,
 	title.bg.colors="grey90", ...)
