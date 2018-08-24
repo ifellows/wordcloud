@@ -11,15 +11,16 @@ wordcloud <- function(words,freq,scale=c(4,.5),min.freq=3,max.words=Inf,random.o
 	last <- 1
 	nc<- length(colors)
 	if(missing(freq)){
-		if(!require("tm"))
-			stop("freq must either be non-missing, or the tm package must be available")
+	  requireNamespace("tm")
+		#if(!require("tm"))
+		#	stop("freq must either be non-missing, or the tm package must be available")
 		if(is.character(words) || is.factor(words)){
-			corpus <- Corpus(VectorSource(words))
-			corpus <- tm_map(corpus, removePunctuation)
-			corpus <- tm_map(corpus, function(x)removeWords(x,stopwords()))
+			corpus <- tm::Corpus(tm::VectorSource(words))
+			corpus <- tm::tm_map(corpus, tm::removePunctuation)
+			corpus <- tm::tm_map(corpus, function(x) tm::removeWords(x,tm::stopwords()))
 		}else
 			corpus <- words
-		tdm <- TermDocumentMatrix(corpus)
+		tdm <- tm::TermDocumentMatrix(corpus)
 		freq <- slam::row_sums(tdm)
 		words <- names(freq)
 	}
@@ -35,7 +36,7 @@ wordcloud <- function(words,freq,scale=c(4,.5),min.freq=3,max.words=Inf,random.o
 
 	overlap <- function(x1, y1, sw1, sh1) {
 		if(!use.r.layout)
-			return(.overlap(x1,y1,sw1,sh1,boxes))
+			return(is_overlap(x1,y1,sw1,sh1,boxes))
 		s <- 0
 		if (length(boxes) == 0) 
 			return(FALSE)
@@ -151,9 +152,9 @@ wordcloud <- function(words,freq,scale=c(4,.5),min.freq=3,max.words=Inf,random.o
 }
 
 #Call down to c++ to find out if any overplotting would occur
-.overlap <- function(x11,y11,sw11,sh11,boxes1){
-	.Call("is_overlap",x11,y11,sw11,sh11,boxes1)
-}
+#.overlap <- function(x11,y11,sw11,sh11,boxes1){
+#	.Call("is_overlap",x11,y11,sw11,sh11,boxes1)
+#}
 
 
 #a word cloud showing the common words among documents
@@ -193,7 +194,7 @@ comparison.cloud <- function(term.matrix,scale=c(4,.5),max.words=300,random.orde
 	
 	overlap <- function(x1, y1, sw1, sh1) {
 		if(!use.r.layout)
-			return(.overlap(x1,y1,sw1,sh1,boxes))
+			return(is_overlap(x1,y1,sw1,sh1,boxes))
 		s <- 0
 		if (length(boxes) == 0) 
 			return(FALSE)
@@ -349,7 +350,7 @@ wordlayout <- function(x, y, words, cex=1, rotate90 = FALSE,
 		}
 		isOverlaped <- TRUE
 		while(isOverlaped){
-			if(!.overlap(x1-.5*wid,y1-.5*ht,wid,ht,boxes) &&
+			if(!is_overlap(x1-.5*wid,y1-.5*ht,wid,ht,boxes) &&
 					x1-.5*wid>xlim[1] && y1-.5*ht>ylim[1] &&
 					x1+.5*wid<xlim[2] && y1+.5*ht<ylim[2]){
 				boxes[[length(boxes)+1]] <- c(x1-.5*wid,y1-.5*ht,wid,ht)

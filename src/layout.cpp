@@ -1,4 +1,3 @@
-
 #include "Rcpp.h"
 
 /*
@@ -7,7 +6,8 @@
  */
 using namespace Rcpp;
 
-RcppExport SEXP is_overlap(SEXP x11,SEXP y11,SEXP sw11,SEXP sh11,SEXP boxes1){
+// [[Rcpp::export]]
+SEXP is_overlap(SEXP x11,SEXP y11,SEXP sw11,SEXP sh11,SEXP boxes1){
 	double x1 = as<double>(x11);
 	double y1 =as<double>(y11);
 	double sw1 = as<double>(sw11);
@@ -39,3 +39,5 @@ RcppExport SEXP is_overlap(SEXP x11,SEXP y11,SEXP sw11,SEXP sh11,SEXP boxes1){
 
 	return Rcpp::wrap(false);
 }
+
+

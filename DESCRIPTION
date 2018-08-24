@@ -2,7 +2,6 @@ Package: wordcloud
 Type: Package
 Title: Word Clouds
 Version: 2.6
-Date: 2018-06-17
 Author: Ian Fellows
 Maintainer: Ian Fellows <ian@fellstat.com>
 Description: Functionality to create pretty word clouds, visualize differences and similarity between documents, and avoid over-plotting in scatter plots with text.
