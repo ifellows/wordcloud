@@ -1,3 +1,6 @@
+2.6
+    o	updated to make R CMD check happy
+    o	Added options for document title colors in comparison.cloud (pull request by Jean-Christophe Bouette)
 2.5
     o	updated for tm 0.6
 2.4
